@@ -1,69 +1,71 @@
 <!-- Liste des produits -->
-<div style="max-width: 1200px; margin: 0 auto; padding: 20px;">
+<div class="container">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
         <h2>Liste des produits</h2>
-        <a href="/products/create" style="padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 4px; display: inline-block;">
+        <a href="/products/create" class="btn btn-primary">
             ➕ Ajouter un produit
         </a>
     </div>
-    
+
     <?php if (empty($products)): ?>
-        <div style="text-align: center; padding: 40px; background-color: #f8f9fa; border-radius: 4px;">
-            <p style="color: #666; font-size: 18px;">Aucun produit disponible.</p>
-            <a href="/products/create" style="color: #007bff; text-decoration: none;">Créer le premier produit</a>
+        <div class="text-center" style="padding: 40px; background-color: var(--light-bg); border-radius: 4px;">
+            <p class="mb-3" style="font-size: 1.1rem; color: var(--secondary-color);">Aucun produit disponible.</p>
+            <a href="/products/create" class="btn btn-primary">Créer le premier produit</a>
         </div>
     <?php else: ?>
-        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px;">
+        <div class="product-grid">
             <?php foreach ($products as $product): ?>
-                <div style="border: 1px solid #ddd; border-radius: 8px; padding: 15px; background-color: white; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <div class="card">
                     <!-- Image du produit -->
                     <?php if (!empty($product['image_url'])): ?>
-                        <div style="margin-bottom: 15px; text-align: center;">
-                            <img 
-                                src="<?= htmlspecialchars($product['image_url']) ?>" 
-                                alt="<?= htmlspecialchars($product['nom']) ?>" 
-                                style="max-width: 100%; max-height: 200px; border-radius: 4px; object-fit: contain;"
-                                onerror="this.style.display='none'"
-                            >
+                        <div class="product-image-container">
+                            <img src="<?= htmlspecialchars($product['image_url']) ?>" alt="<?= htmlspecialchars($product['nom']) ?>"
+                                class="product-image" onerror="this.style.display='none'">
                         </div>
                     <?php else: ?>
-                        <div style="margin-bottom: 15px; text-align: center; padding: 40px; background-color: #f8f9fa; border-radius: 4px;">
-                            <span style="color: #999; font-size: 14px;">Aucune image</span>
+                        <div class="product-image-container">
+                            <div class="no-image">Pas d'image</div>
                         </div>
                     <?php endif; ?>
-                    
+
                     <!-- Informations du produit -->
-                    <h3 style="margin: 0 0 10px 0; color: #333; font-size: 20px;">
+                    <h3 class="card-title">
                         <?= htmlspecialchars($product['nom']) ?>
                     </h3>
-                    
+
                     <?php if (!empty($product['description'])): ?>
-                        <p style="margin: 0 0 15px 0; color: #666; font-size: 14px; line-height: 1.5;">
+                        <p class="card-text">
                             <?= htmlspecialchars($product['description']) ?>
                         </p>
                     <?php endif; ?>
-                    
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px; padding-top: 15px; border-top: 1px solid #eee;">
+
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: auto; padding-top: 15px; border-top: 1px solid var(--border-color);">
                         <div>
-                            <div style="font-size: 24px; font-weight: bold; color: #007bff;">
-                                <?= number_format((float)$product['prix'], 2, ',', ' ') ?> €
+                            <div class="price-tag">
+                                <?= number_format((float) $product['prix'], 2, ',', ' ') ?> €
                             </div>
-                            <div style="font-size: 12px; color: #666; margin-top: 5px;">
+                            <div class="stock-tag">
                                 Stock: <?= htmlspecialchars($product['stock']) ?>
                             </div>
                         </div>
-                    </div>
-                    
-                    <div style="margin-top: 10px; font-size: 12px; color: #999;">
-                        ID: <?= htmlspecialchars($product['id']) ?>
+                        <div>
+                            <form action="/cart/add" method="POST" style="display: flex; gap: 5px;">
+                                <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
+                                <input type="number" name="quantity" value="1" min="1" class="form-control"
+                                    style="width: 60px; padding: 5px;">
+                                <button type="submit" class="btn btn-success btn-sm">
+                                    Ajouter
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             <?php endforeach; ?>
         </div>
     <?php endif; ?>
-    
-    <div style="margin-top: 30px; text-align: center;">
-        <a href="/" style="color: #007bff; text-decoration: none;">← Retour à l'accueil</a>
+
+    <div class="mt-4 text-center">
+        <a href="/" class="btn btn-secondary">← Retour à l'accueil</a>
     </div>
 </div>
-

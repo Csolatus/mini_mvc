@@ -7,6 +7,18 @@
     
     <form id="userForm" style="display: flex; flex-direction: column; gap: 15px;">
         <div>
+            <label for="prenom" style="display: block; margin-bottom: 5px; font-weight: bold;">Prénom :</label>
+            <input 
+                type="text" 
+                id="prenom" 
+                name="prenom" 
+                required 
+                style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;"
+                placeholder="Entrez le prénom de l'utilisateur"
+            >
+        </div>
+
+        <div>
             <label for="nom" style="display: block; margin-bottom: 5px; font-weight: bold;">Nom :</label>
             <input 
                 type="text" 
@@ -27,6 +39,19 @@
                 required 
                 style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;"
                 placeholder="exemple@email.com"
+            >
+        </div>
+
+        <div>
+            <label for="password" style="display: block; margin-bottom: 5px; font-weight: bold;">Mot de passe :</label>
+            <input 
+                type="password" 
+                id="password" 
+                name="password" 
+                required 
+                minlength="6"
+                style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;"
+                placeholder="Au moins 6 caractères"
             >
         </div>
         
@@ -51,8 +76,10 @@ document.getElementById('userForm').addEventListener('submit', async function(e)
     e.preventDefault();
     
     // Récupère les valeurs du formulaire
+    const prenom = document.getElementById('prenom').value.trim();
     const nom = document.getElementById('nom').value.trim();
     const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
     
     // Affiche un message de chargement
     const messageDiv = document.getElementById('message');
@@ -69,8 +96,10 @@ document.getElementById('userForm').addEventListener('submit', async function(e)
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
+                prenom: prenom,
                 nom: nom,
-                email: email
+                email: email,
+                password: password
             })
         });
         

@@ -6,43 +6,71 @@ namespace Mini\Core;
 // Déclare le routeur HTTP minimaliste
 final class Router
 {
-    // Tableau des routes : [méthode, chemin, [ClasseContrôleur, action]]
-    /** @var array<int, array{0:string,1:string,2:array{0:class-string,1:string}} > */
     private array $routes;
 
-    /**
-     * Initialise le routeur avec les routes configurées
-     * @param array<int, array{0:string,1:string,2:array{0:class-string,1:string}} > $routes
-     */
     public function __construct(array $routes)
     {
-        // Mémorise les routes fournies
         $this->routes = $routes;
     }
 
-    // Dirige la requête vers le bon contrôleur en fonction méthode/URI
+
+
     public function dispatch(string $method, string $uri): void
     {
-        // Extrait uniquement le chemin de l'URI
         $path = parse_url($uri, PHP_URL_PATH) ?? '/';
 
-        // Parcourt chaque route enregistrée
+        // On récupère les segments de l'URL actuelle (ex: /orders/5 -> ['orders', '5'])
+        $pathParts = explode('/', trim($path, '/'));
+
         foreach ($this->routes as [$routeMethod, $routePath, $handler]) {
-            // Vérifie correspondance stricte de méthode et de chemin
-            if ($method === $routeMethod && $path === $routePath) {
-                // Déstructure le gestionnaire en [classe, action]
-                [$class, $action] = $handler;
-                // Instancie le contrôleur cible
-                $controller = new $class();
-                // Appelle l'action sur le contrôleur
-                $controller->$action();
-                return;
+            if ($method !== $routeMethod) {
+                continue;
+            }
+
+            // On regarde si c'est une route avec paramètre (ex: /orders/{id})
+            if (strpos($routePath, '{') !== false) {
+                $routeParts = explode('/', trim($routePath, '/'));
+
+                // Si pas le même nombre de bouts, ça ne matche pas
+                if (count($pathParts) !== count($routeParts)) {
+                    continue;
+                }
+
+                $params = [];
+                $match = true;
+
+                for ($i = 0; $i < count($routeParts); $i++) {
+                    // Si c'est un paramètre {id}, on garde la valeur
+                    if (strpos($routeParts[$i], '{') !== false) {
+                        $params[] = $pathParts[$i];
+                    }
+                    // Sinon, ça doit être identique (ex: "orders" == "orders")
+                    elseif ($routeParts[$i] !== $pathParts[$i]) {
+                        $match = false;
+                        break;
+                    }
+                }
+
+                if ($match) {
+                    [$class, $action] = $handler;
+                    $controller = new $class();
+                    call_user_func_array([$controller, $action], $params);
+                    return;
+                }
+            }
+            // Route simple (ex: /products)
+            else {
+                if ($path === $routePath) {
+                    [$class, $action] = $handler;
+                    $controller = new $class();
+                    $controller->$action();
+                    return;
+                }
             }
         }
 
-        // Si aucune route ne correspond, renvoie un 404 minimaliste
         http_response_code(404);
-        echo '404 Not Found';
+        echo '404 - Page non trouvée';
     }
 }
 

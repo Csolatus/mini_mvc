@@ -21,8 +21,9 @@ class Database
         $configData = parse_ini_file(__DIR__ . '/../config.ini');
 
         try {
+            $port = $configData['DB_PORT'] ?? '3306';
             $this->dbh = new PDO(
-                "mysql:host={$configData['DB_HOST']};dbname={$configData['DB_NAME']};charset=utf8",
+                "mysql:host={$configData['DB_HOST']};port={$port};dbname={$configData['DB_NAME']};charset=utf8",
                 $configData['DB_USERNAME'],
                 $configData['DB_PASSWORD'],
                 array(PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING) // Affiche les erreurs SQL à l'écran
