@@ -73,13 +73,13 @@ class OrderController extends Controller
         $orderId = Order::create($user['id'], $total, $items);
 
         if ($orderId) {
-            // Vider le panier
+
             unset($_SESSION['cart']);
-            // Redirection vers l'accueil comme demandé
+
             header("Location: /?order_success=1");
             exit;
         } else {
-            // Gérer l'erreur (idéalement avec un message flash)
+
             header('Location: /cart?error=order_failed');
             exit;
         }

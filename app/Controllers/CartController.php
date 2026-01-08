@@ -23,9 +23,9 @@ class CartController extends Controller
         $cleanCart = [];
         $total = 0;
 
-        // Nettoyage et calcul
+
         foreach ($cartItems as $id => $item) {
-            // Vérification de l'intégrité des données
+
             if (!isset($item['product_name']) || !isset($item['price']) || $item['product_name'] === null || $item['price'] === null) {
                 continue;
             }
@@ -33,7 +33,7 @@ class CartController extends Controller
             $total += $item['price'] * $item['quantity'];
         }
 
-        // Mise à jour de la session si nettoyage effectué
+
         if (count($cleanCart) !== count($cartItems)) {
             $_SESSION['cart'] = $cleanCart;
         }

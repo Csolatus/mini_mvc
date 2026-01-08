@@ -1,8 +1,6 @@
-<!-- Formulaire pour créer un nouveau produit -->
 <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
     <h2>Ajouter un nouveau produit</h2>
     
-    <!-- Message de succès ou d'erreur -->
     <?php if (isset($message)): ?>
         <div style="padding: 10px; margin-bottom: 20px; border-radius: 4px; 
                     background-color: <?= isset($success) && $success ? '#d4edda' : '#f8d7da' ?>; 

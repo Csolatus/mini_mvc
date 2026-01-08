@@ -1,6 +1,6 @@
 <?php
 
-// Ici je définit le namespace ou il y aura ma class
+
 namespace Mini\Models;
 
 use Mini\Core\Database;
@@ -15,9 +15,7 @@ class Product
     private $stock;
     private $image_url;
 
-    // =====================
-    // Getters / Setters
-    // =====================
+
 
     public function getId()
     {
@@ -79,18 +77,13 @@ class Product
         $this->image_url = $image_url;
     }
 
-    // =====================
-    // Méthodes CRUD
-    // =====================
 
-    /**
-     * Récupère tous les produits
-     * @return array
-     */
+
+
     public static function getAll()
     {
         $pdo = Database::getPDO();
-        // Aligne les noms de colonnes de la table `products` avec ceux attendus par les vues
+
         $stmt = $pdo->query("
             SELECT 
                 id,
@@ -105,11 +98,7 @@ class Product
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    /**
-     * Récupère un produit par son ID
-     * @param int $id
-     * @return array|null
-     */
+
     public static function findById($id)
     {
         $pdo = Database::getPDO();
@@ -129,10 +118,7 @@ class Product
         return $product ?: null;
     }
 
-    /**
-     * Crée un nouveau produit
-     * @return bool
-     */
+
     public function save()
     {
         $pdo = Database::getPDO();
@@ -149,10 +135,7 @@ class Product
         ]);
     }
 
-    /**
-     * Met à jour les informations d'un produit existant
-     * @return bool
-     */
+
     public function update()
     {
         $pdo = Database::getPDO();
@@ -171,10 +154,7 @@ class Product
         ]);
     }
 
-    /**
-     * Supprime un produit
-     * @return bool
-     */
+
     public function delete()
     {
         $pdo = Database::getPDO();

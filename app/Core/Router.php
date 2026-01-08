@@ -1,9 +1,9 @@
 <?php
-// Active le mode strict pour les types
+
 declare(strict_types=1);
-// Espace de noms du noyau
+
 namespace Mini\Core;
-// Déclare le routeur HTTP minimaliste
+
 final class Router
 {
     private array $routes;
@@ -19,7 +19,7 @@ final class Router
     {
         $path = parse_url($uri, PHP_URL_PATH) ?? '/';
 
-        // On récupère les segments de l'URL actuelle (ex: /orders/5 -> ['orders', '5'])
+
         $pathParts = explode('/', trim($path, '/'));
 
         foreach ($this->routes as [$routeMethod, $routePath, $handler]) {
@@ -27,11 +27,11 @@ final class Router
                 continue;
             }
 
-            // On regarde si c'est une route avec paramètre (ex: /orders/{id})
+
             if (strpos($routePath, '{') !== false) {
                 $routeParts = explode('/', trim($routePath, '/'));
 
-                // Si pas le même nombre de bouts, ça ne matche pas
+
                 if (count($pathParts) !== count($routeParts)) {
                     continue;
                 }
@@ -40,12 +40,10 @@ final class Router
                 $match = true;
 
                 for ($i = 0; $i < count($routeParts); $i++) {
-                    // Si c'est un paramètre {id}, on garde la valeur
+
                     if (strpos($routeParts[$i], '{') !== false) {
                         $params[] = $pathParts[$i];
-                    }
-                    // Sinon, ça doit être identique (ex: "orders" == "orders")
-                    elseif ($routeParts[$i] !== $pathParts[$i]) {
+                    } elseif ($routeParts[$i] !== $pathParts[$i]) {
                         $match = false;
                         break;
                     }
@@ -57,9 +55,7 @@ final class Router
                     call_user_func_array([$controller, $action], $params);
                     return;
                 }
-            }
-            // Route simple (ex: /products)
-            else {
+            } else {
                 if ($path === $routePath) {
                     [$class, $action] = $handler;
                     $controller = new $class();

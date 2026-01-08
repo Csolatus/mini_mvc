@@ -1,4 +1,3 @@
-<!-- Liste des produits -->
 <div class="container">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
         <h2>Liste des produits</h2>
@@ -16,7 +15,6 @@
         <div class="product-grid">
             <?php foreach ($products as $product): ?>
                 <div class="card">
-                    <!-- Image du produit -->
                     <?php if (!empty($product['image_url'])): ?>
                         <div class="product-image-container">
                             <img src="<?= htmlspecialchars($product['image_url']) ?>" alt="<?= htmlspecialchars($product['nom']) ?>"
@@ -28,7 +26,6 @@
                         </div>
                     <?php endif; ?>
 
-                    <!-- Informations du produit -->
                     <h3 class="card-title">
                         <?= htmlspecialchars($product['nom']) ?>
                     </h3>

@@ -11,10 +11,10 @@ class ProductController extends Controller
 {
     public function listProducts(): void
     {
-        // Récupère tous les produits
+
         $products = Product::getAll();
 
-        // Affiche la liste des produits
+
         $this->render('product/list-products', params: [
             'title' => 'Liste des produits',
             'products' => $products
@@ -23,7 +23,7 @@ class ProductController extends Controller
 
     public function showCreateProductForm(): void
     {
-        // Affiche le formulaire de création de produit
+
         $this->render('product/create-product', params: [
             'title' => 'Créer un produit'
         ]);
@@ -31,16 +31,16 @@ class ProductController extends Controller
 
     public function createProduct(): void
     {
-        // Vérifie que la méthode HTTP est POST
+
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             header('Location: /products/create');
             return;
         }
 
-        // Récupère les données depuis $_POST
+
         $input = $_POST;
 
-        // Valide les données requises
+
         if (empty($input['nom']) || empty($input['prix']) || empty($input['stock'])) {
             $this->render('product/create-product', params: [
                 'title' => 'Créer un produit',
@@ -51,7 +51,7 @@ class ProductController extends Controller
             return;
         }
 
-        // Valide le prix (doit être un nombre positif)
+
         if (!is_numeric($input['prix']) || floatval($input['prix']) < 0) {
             $this->render('product/create-product', params: [
                 'title' => 'Créer un produit',
@@ -62,7 +62,7 @@ class ProductController extends Controller
             return;
         }
 
-        // Valide le stock (doit être un entier positif)
+
         if (!is_numeric($input['stock']) || intval($input['stock']) < 0) {
             $this->render('product/create-product', params: [
                 'title' => 'Créer un produit',
@@ -73,7 +73,7 @@ class ProductController extends Controller
             return;
         }
 
-        // Valide l'URL de l'image si fournie
+
         $image_url = $input['image_url'] ?? '';
         if (!empty($image_url) && !filter_var($image_url, FILTER_VALIDATE_URL)) {
             $this->render('product/create-product', params: [
@@ -85,7 +85,7 @@ class ProductController extends Controller
             return;
         }
 
-        // Crée une nouvelle instance Product
+
         $product = new Product();
         $product->setNom($input['nom']);
         $product->setDescription($input['description'] ?? '');
@@ -93,7 +93,7 @@ class ProductController extends Controller
         $product->setStock(intval($input['stock']));
         $product->setImageUrl($image_url);
 
-        // Sauvegarde le produit
+
         if ($product->save()) {
             $this->render('product/create-product', params: [
                 'title' => 'Créer un produit',
