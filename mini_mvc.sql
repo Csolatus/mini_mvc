@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:8889
--- Généré le : jeu. 11 déc. 2025 à 07:57
+-- Généré le : jeu. 08 jan. 2026 à 11:45
 -- Version du serveur : 8.0.35
 -- Version de PHP : 8.2.20
 
@@ -89,7 +89,10 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `user_id`, `total_amount`, `status`, `created_at`) VALUES
-(1, 3, 199.99, 'pending', '2025-11-28 08:52:12');
+(1, 3, 199.99, 'pending', '2025-11-28 08:52:12'),
+(2, 8, 0.00, 'pending', '2025-12-16 14:04:24'),
+(3, 8, 35.50, 'pending', '2025-12-16 14:09:17'),
+(4, 8, 2049.99, 'pending', '2025-12-16 14:59:22');
 
 -- --------------------------------------------------------
 
@@ -111,7 +114,10 @@ CREATE TABLE `order_items` (
 --
 
 INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `product_name`, `price`, `quantity`) VALUES
-(1, 1, 3, 'Casque Audio', 199.99, 1);
+(1, 1, 3, 'Casque Audio', 199.99, 1),
+(2, 3, 5, 'Lampe de bureau', 35.50, 1),
+(3, 4, 7, 'Barrette de RAM', 2000.00, 1),
+(4, 4, 2, 'Jean Slim', 49.99, 1);
 
 -- --------------------------------------------------------
 
@@ -139,7 +145,9 @@ INSERT INTO `products` (`id`, `category_id`, `name`, `description`, `price`, `im
 (2, 1, 'Jean Slim', 'Jean bleu coupe slim.', 49.99, 'https://placehold.co/400x300?text=Jean', 50, '2025-11-28 08:50:49'),
 (3, 2, 'Casque Audio', 'Casque sans fil avec réduction de bruit.', 199.99, 'https://placehold.co/400x300?text=Casque', 20, '2025-11-28 08:50:49'),
 (4, 2, 'Clé USB 64Go', 'Stockage portable rapide.', 15.00, 'https://placehold.co/400x300?text=USB', 200, '2025-11-28 08:50:49'),
-(5, 3, 'Lampe de bureau', 'Lampe LED articulée.', 35.50, 'https://placehold.co/400x300?text=Lampe', 30, '2025-11-28 08:50:49');
+(5, 3, 'Lampe de bureau', 'Lampe LED articulée.', 35.50, 'https://placehold.co/400x300?text=Lampe', 30, '2025-11-28 08:50:49'),
+(7, NULL, 'Barrette de RAM', 'De l\'or', 2000.00, 'https://placehold.co/400x300?text=BarretteRAM', 2, '2025-12-16 14:04:03'),
+(8, NULL, 'test', 'produit test', 10.00, '', 100, '2025-12-16 17:05:22');
 
 -- --------------------------------------------------------
 
@@ -164,7 +172,11 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `email`, `password`, `firstname`, `lastname`, `role`, `created_at`) VALUES
 (1, 'admin@test.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Admin', 'User', 'admin', '2025-11-28 08:50:49'),
 (2, 'user@test.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'John', 'Doe', 'user', '2025-11-28 08:50:49'),
-(3, 'lucas@gmail.com', '$2y$12$1w4aCoQ6WEC8cvPHvo/OuuQ.EsMBTaoHQNuVZ6XMpA/471FFIlt7.', 'Lucas', 'Lanoue', 'user', '2025-11-28 08:51:55');
+(3, 'lucas@gmail.com', '$2y$12$1w4aCoQ6WEC8cvPHvo/OuuQ.EsMBTaoHQNuVZ6XMpA/471FFIlt7.', 'Lucas', 'Lanoue', 'user', '2025-11-28 08:51:55'),
+(5, 'testcoucou@gmail.com', '$2y$12$jB108lVqMFxTh4dsMdafZOnvhqSx6H.SJ/VTlI/3bqAPLF6PmgqDS', 'testcoucou', NULL, 'user', '2025-12-11 08:39:58'),
+(6, 'lucaslanoue@gmail.com', '$2y$12$Z196j/GTbKePwj/J9jf53OHcLluAx1CDGsQT1MIc6k0t3Odu/cWIq', 'Lanoue', NULL, 'user', '2025-12-11 10:15:12'),
+(7, 'prenomnom@gmail.com', '$2y$12$81KH5bQTS/GECkPbKv0LhuLpy26I/blEtsIgoCaZVzg2NZAqna97W', 'prenom', 'nom', 'user', '2025-12-11 10:19:30'),
+(8, 'thomasboulogne@gmail.com', '$2y$12$2sWXM2M6LsfF85ox5x2QOeV7/N/8vkg7zDmsZrwDv3J8dQRazzC1u', 'Thomas', 'Boulogne', 'user', '2025-12-16 13:08:26');
 
 --
 -- Index pour les tables déchargées
@@ -246,25 +258,25 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT pour la table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT pour la table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT pour la table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT pour la table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Contraintes pour les tables déchargées
